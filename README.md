@@ -1,1 +1,1 @@
-# drf_jwt_capstone_backend
+# capstone_library

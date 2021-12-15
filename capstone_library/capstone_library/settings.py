@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
+    'library.apps.LibraryConfig',
+    'book_tracker.apps.Book_TrackerConfig',
+    'nontrad_tracker.apps.NonTrad_TrackerConfig',
+    'wishlist.apps.WishlistConfig'
 ]
 
 MIDDLEWARE = [
@@ -55,7 +59,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-ROOT_URLCONF = 'drf_jwt_capstone_backend.urls'
+ROOT_URLCONF = 'capstone_library.urls'
 
 TEMPLATES = [
     {
@@ -73,7 +77,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'drf_jwt_capstone_backend.wsgi.application'
+WSGI_APPLICATION = 'capstone_library.wsgi.application'
 
 
 # Database
