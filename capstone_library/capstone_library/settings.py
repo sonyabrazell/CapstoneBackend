@@ -164,6 +164,6 @@ SIMPLE_JWT = {
 AUTH_USER_MODEL = 'authentication.User'
 
 try:
-    from drf_jwt_capstone_backend.local_settings import *
+    from capstone_library.local_settings import *
 except ImportError:
     pass

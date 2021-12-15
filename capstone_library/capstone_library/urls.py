@@ -1,4 +1,4 @@
-"""drf_jwt_capstone_backend URL Configuration
+"""capstone_library URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
