@@ -41,9 +41,6 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'corsheaders',
     'library.apps.LibraryConfig',
-    'book_tracker.apps.Book_TrackerConfig',
-    'nontrad_tracker.apps.NonTrad_TrackerConfig',
-    'wishlist.apps.WishlistConfig'
 ]
 
 MIDDLEWARE = [

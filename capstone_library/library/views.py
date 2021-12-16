@@ -12,6 +12,8 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+client = 'https://openlibrary.org/api/books?bibkeys=`${book_isbn}`&jscmd=data&format=json'
+
 # LIBRARY VIEWS    
     
 @api_view(['GET'])
@@ -109,15 +111,15 @@ def get_all_read_books(request):
 @permission_classes([IsAuthenticated])    
 def add_new_read_book(request):
     if request.method == 'POST':
-        book_title = request.POST.get('booktitle')
-        book_author = request.POST.get('book_author')
-        book_cover = request.POST.get('book_cover')
-        date_read = request.POST.get('date_read')
+        tracker_title = request.POST.get('booktitle')
+        tracker_author = request.POST.get('book_author')
+        tracker_cover = request.POST.get('book_cover')
+        book_date_read = request.POST.get('date_read')
         new_read_book = BookTracker(
-            book_title=book_title, 
-            book_author=book_author, 
-            book_cover=book_cover,
-            date_read=date_read
+            tracker_title=tracker_title, 
+            tracker_author=tracker_author, 
+            tracker_cover=tracker_cover,
+            book_date_read=book_date_read
             )
         serializer = BookTrackerSerializer(data=request.data)
         if serializer.is_valid():
@@ -138,14 +140,6 @@ def get_read_book(self, pk):
 @permission_classes([IsAuthenticated])
 def get_read_book_by_id(self, request, pk):
     book_read = self.get_read_book(pk)
-    serializer = BookTrackerSerializer(book_read, data=request.data)
-    return Response(serializer.data)
-
-#get by title
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_read_book_by_title(self, request, title):
-    book_read = self.get_read_book(title)
     serializer = BookTrackerSerializer(book_read, data=request.data)
     return Response(serializer.data)
 
@@ -182,13 +176,13 @@ def add_new_read_work(request):
         work_title = request.POST.get('work_title')
         work_author = request.POST.get('work_author')
         word_count = request.POST.get('word_count')
-        date_read = request.POST.get('date_read')
+        work_date_read = request.POST.get('date_read')
         work_link = request.POST.get('work_link')
         new_read_work = NonTradTracker(
             work_title=work_title, 
             work_author=work_author, 
             word_count=word_count,
-            date_read=date_read,
+            work_date_read=work_date_read,
             work_link=work_link
             )
         serializer = NonTradSerializer(data=request.data)
@@ -234,13 +228,13 @@ def get_all_wishlist_books(request):
 @permission_classes([IsAuthenticated])    
 def add_new_wishlist_book(request):
     if request.method == 'POST':
-        book_title = request.POST.get('booktitle')
-        book_author = request.POST.get('book_author')
-        book_cover = request.POST.get('book_cover')
+        wishlist_title = request.POST.get('booktitle')
+        wishlist_author = request.POST.get('book_author')
+        wishlist_cover = request.POST.get('book_cover')
         new_wishlist_book = Wishlist(
-            book_title=book_title, 
-            book_author=book_author, 
-            book_cover=book_cover,
+            wishlist_title=wishlist_title, 
+            wishlist_author=wishlist_author, 
+            wishlist_cover=wishlist_cover,
             )
         serializer = WishlistSerializer(data=request.data)
         if serializer.is_valid():
@@ -261,14 +255,6 @@ def get_wishlist_book(self, pk):
 @permission_classes([IsAuthenticated])
 def get_wishlist_book_by_id(self, request, pk):
     wishlist_book = self.get_wishlist_book(pk)
-    serializer = WishlistSerializer(wishlist_book, data=request.data)
-    return Response(serializer.data)
-
-#get by title
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_wishlist_book_by_title(self, request, title):
-    wishlist_book = self.get_wishlist_book(title)
     serializer = WishlistSerializer(wishlist_book, data=request.data)
     return Response(serializer.data)
 
