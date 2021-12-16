@@ -1,6 +1,6 @@
 from django.db.models import fields
 from rest_framework import serializers
-from .models import Book, BookTracker
+from .models import Book, BookTracker, NonTradTracker, Wishlist
 
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,10 +10,14 @@ class BookSerializer(serializers.ModelSerializer):
 class BookTrackerSerializer(serializers.ModelSerializer):
     class Meta:
         model = BookTracker
-        fields = ['id', 'title', 'author', 'isbn', 'cover', 'format']
+        fields = ['id', 'title', 'author', 'cover', 'date_read']
         
 class NonTradSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = NonTradTracker
+        fields = ['id', 'title','author', 'word_count', 'date_read', 'work_link']
 
 class WishlistSerializer(serializers.ModelSerializer):
-    pass
+    class Meta:
+        model = Wishlist
+        fields = ['id', 'title', 'author', 'book_cover']

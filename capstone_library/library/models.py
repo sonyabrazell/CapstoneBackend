@@ -57,7 +57,6 @@ class Book(models.Model):
         (Audiobook, 'Audiobook'),
     ]
     
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     book_title = models.CharField(max_length=50)
     book_author = models.CharField(max_length=50)
     book_isbn = models.IntegerField()
@@ -71,7 +70,9 @@ class Book(models.Model):
     signed = BooleanField(default=False)
     
 class BookTracker(models.Model):
-    book = ForeignKey(Book, on_delete=models.CASCADE)
+    book_title = ForeignKey(Book, related_name = 'book_title', on_delete=models.CASCADE)
+    book_author = ForeignKey(Book, related_name= 'book_author')
+    book_cover = ForeignKey(Book, related_name = 'book_cover')
     date_read = models.DateField()
 
 class NonTradTracker(models.Model):
@@ -82,6 +83,8 @@ class NonTradTracker(models.Model):
     work_link = models.CharField(max_length=100)
 
 class Wishlist (models.Model):
-    book = ForeignKey(Book, on_delete=models.CASCADE)
+    book_title = ForeignKey(Book, related_name = 'book_title', on_delete=models.CASCADE)
+    book_author = ForeignKey(Book, related_name = 'book_author')
+    book_cover = ForeignKey(Book, related_name = 'book_cover')
     
     
