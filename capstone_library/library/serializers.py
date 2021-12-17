@@ -20,4 +20,4 @@ class NonTradSerializer(serializers.ModelSerializer):
 class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
-        fields = ['id', 'title', 'author', 'book_cover']
+        fields = ['id', 'title', 'author', 'cover']
