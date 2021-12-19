@@ -164,6 +164,10 @@ SIMPLE_JWT = {
 
 AUTH_USER_MODEL = 'authentication.User'
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000'
+]
+
 try:
     from capstone_library.local_settings import *
 except ImportError:

@@ -84,7 +84,7 @@ class BookTracker(models.Model):
         ordering = ['book_date_read']
         
 
-class NonTradTracker(models.Model):
+class OGTracker(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     work_title = models.CharField(max_length=50)
     work_author = models.CharField(max_length=50)

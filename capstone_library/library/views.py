@@ -1,187 +1,41 @@
-from django.http.response import Http404, HttpResponseRedirect
-from django.shortcuts import render
-from rest_framework import status
-from rest_framework.serializers import Serializer
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
-from .models import Book, BookTracker, NonTradTracker, Wishlist
-from .serializers import BookSerializer, BookTrackerSerializer, NonTradSerializer, WishlistSerializer
-from django.contrib.auth.models import User
+from .models import Book, BookTracker, OGTracker, Wishlist
+from .serializers import BookSerializer, BookTrackerSerializer, OGSerializer, WishlistSerializer
+
 
 # Create your views here.
 
-# LIBRARY VIEWS    
+# LIBRARY VIEW    
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_all_books(request):
-    books = Book.objects.all()
-    serializer = BookSerializer(books, data=request.data, many=True)
-    return Response(serializer.data)
+class BookView(viewsets.ModelViewSet):
+    serializer = BookSerializer
+    queryset = Book.objects.all()
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])    
-def add_new_book(request):
-    if request.method == 'POST':
-        serializer = BookSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# BOOK TRACKER VIEW
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_book(self, pk):
-    try:
-        return Book.objects.get(pk=pk)
-    except Book.DoesNotExist:
-        raise Http404
-
-#get by id
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_by_id(self, request, pk):
-    book = self.get_book(pk)
-    serializer = BookSerializer(book, data=request.data)
-    return Response(serializer.data)
-
-#delete
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def delete_book(self, request, pk):
-    book = self.get_book(pk)
-    book.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
-# BOOK TRACKER VIEWS
-    
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_all_read_books(request):
-    book_read = BookTracker.objects.all()
-    serializer = BookTrackerSerializer(book_read, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])    
-def add_new_read_book(request):
-    if request.method == 'POST':
-        serializer = BookTrackerSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_read_book(self, pk):
-    try:
-        return BookTracker.objects.get(pk=pk)
-    except BookTracker.DoesNotExist:
-        raise Http404
-    
-#get by id
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_read_book_by_id(self, request, pk):
-    book_read = self.get_read_book(pk)
-    serializer = BookTrackerSerializer(book_read, data=request.data)
-    return Response(serializer.data)
-
-#delete
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def delete_read_book(self, request, pk):
-    book = self.get_read_book(pk)
-    book.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+class BookTrackerView(viewsets.ModelViewSet):
+    serializer = BookTrackerSerializer
+    queryset=BookTracker.objects.all()
 
 
-# NON TRAD TRACKER VIEWS
+# OG TRACKER VIEW
     
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_all_read_works(request):
-    works_read = NonTradTracker.objects.all()
-    serializer = NonTradSerializer(works_read, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])    
-def add_new_read_work(request):
-    if request.method == 'POST':
-        serializer = NonTradSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_read_work(self, pk):
-    try:
-        return NonTradTracker.objects.get(pk=pk)
-    except NonTradTracker.DoesNotExist:
-        raise Http404
-    
-#get by id
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_work_by_id(self, request, pk):
-    work_read = self.get_read_work(pk)
-    serializer = NonTradSerializer(work_read, data=request.data)
-    return Response(serializer.data)
-
-#delete
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def delete_work(self, request, pk):
-    work = self.get_read_work(pk)
-    work.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+class OGTrackerView(viewsets.ModelViewSet):
+    serializer = OGSerializer
+    queryset=OGTracker.objects.all()
 
 # WISHLIST VIEWS
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def get_all_wishlist_books(request):
-    wishlist_books = Wishlist.objects.all()
-    serializer = WishlistSerializer(wishlist_books, many=True)
-    return Response(serializer.data)
-    
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])    
-def add_new_wishlist_book(request):
-    if request.method == 'POST':
-        serializer = WishlistSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_wishlist_book(self, pk):
-    try:
-        return Wishlist.objects.get(pk=pk)
-    except BookTracker.DoesNotExist:
-        raise Http404
-    
-#get by id
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_wishlist_book_by_id(self, request, pk):
-    wishlist_book = self.get_wishlist_book(pk)
-    serializer = WishlistSerializer(wishlist_book, data=request.data)
-    return Response(serializer.data)
-
-#delete
-@api_view(['DELETE'])
-@permission_classes([IsAuthenticated])
-def delete_wishlist_book(self, request, pk):
-    wishlist_book = self.get_wishlist_book(pk)
-    wishlist_book.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
-
+class WishlistView(viewsets.ModelViewSet):
+    serializer = WishlistSerializer
+    queryset = Wishlist.objects.all()
