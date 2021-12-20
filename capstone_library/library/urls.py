@@ -3,9 +3,15 @@ from . import views
 
 
 
+
 urlpatterns = [
-    path('books/', views.BookView.as_view()),
-    path('book_tracker/', views.BookTrackerView.as_view()),
-    path('og_tracker/', views.OGTrackerView.as_view()),
-    path('wishlist/', views.WishlistView.as_view())
+    path('books/', views.BookView),
+    path('library/', views.UserBooks),
+    path('library/delete/<int:pk>', views.DeleteBook),
+    path('book_tracker/', views.UserReadBooks),
+    path('book_tracker/delete/<int:pk>', views.DeleteReadBook),
+    path('og_tracker/', views.UserReadWork),
+    path('og_tracker/delete/<int:pk>', views.DeleteWork),
+    path('wishlist/', views.UserWishlist),
+    path('wishlist/delete/<int:pk>', views.DeleteWishlistBook)
 ]
