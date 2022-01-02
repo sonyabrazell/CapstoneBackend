@@ -23,17 +23,20 @@ def BookView(request):
 @api_view(['POST', 'GET'])
 @permission_classes([IsAuthenticated])
 def UserBooks(request):
+    if request.method == 'GET':
+        user_books = Book.objects.filter(user_id=request.user.id)
+        serializer = BookSerializer(user_books, many=True)
+        return Response(serializer.data)
     
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def AddUserBooks(request):
     if request.method == 'POST':
         serializer = BookSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status= status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    elif request.method == 'GET':
-        user_books = Book.objects.filter(user_id=request.user.id)
-        serializer = BookSerializer(user_books, many=True)
-        return Response(serializer.data)   
     
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])

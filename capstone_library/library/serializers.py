@@ -15,7 +15,7 @@ class BookTrackerSerializer(serializers.ModelSerializer):
 class OGSerializer(serializers.ModelSerializer):
     class Meta:
         model = OGTracker
-        fields = ['id', 'book_title','book_author', 'word_count', 'date_read', 'work_link']
+        fields = ['id', 'work_title','work_author', 'word_count', 'work_date_read', 'work_link']
 
 class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
