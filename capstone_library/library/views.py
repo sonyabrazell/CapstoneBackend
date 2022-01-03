@@ -125,3 +125,9 @@ def DeleteWishlistBook(request, pk):
         book.delete()
         return Response({'message':'Book was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
     
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def BookSearch(request):
+    return (request, 'frontend/book_search.jsx')
+    
+    

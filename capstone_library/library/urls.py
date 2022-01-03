@@ -10,6 +10,7 @@ urlpatterns = [
     path('add_new_book/', views.AddUserBooks),
     path('book_tracker/', views.UserReadBooks),
     path('og_tracker/', views.UserReadWork),
+    path('book_search', views.BookSearch),
     path('wishlist/', views.UserWishlist),
     path('wishlist/delete/<int:pk>', views.DeleteWishlistBook)
 ]
