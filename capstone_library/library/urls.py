@@ -12,5 +12,4 @@ urlpatterns = [
     path('og_tracker/', views.UserReadWork),
     path('book_search', views.BookSearch),
     path('wishlist/', views.UserWishlist),
-    path('wishlist/delete/<int:pk>', views.DeleteWishlistBook)
 ]
