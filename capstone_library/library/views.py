@@ -129,5 +129,12 @@ def DeleteWishlistBook(request, pk):
 @permission_classes([IsAuthenticated])
 def BookSearch(request):
     return (request, 'frontend/book_search.jsx')
-    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def SeriesView(request):
+    return (request, 'frontend/series_view.jsx')
+
+
+
     
