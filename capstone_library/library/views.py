@@ -55,14 +55,14 @@ def DeleteBook(request, pk):
 def UserReadBooks(request):
     
     if request.method == 'POST':
-        serializer = BookTrackerSerializer(data=request.data)
+        serializer = BookSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'GET':
-        read_books = BookTracker.objects.filter(user_id=request.user.id)
-        serializer = BookTrackerSerializer(read_books, many=True)
+        read_books = Book.objects.filter(user_id=request.user.id).filter(read_status=True)
+        serializer = BookSerializer(read_books, many=True)
         return Response(serializer.data)
     
 @api_view(['DELETE'])
